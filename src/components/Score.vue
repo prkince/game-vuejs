@@ -6,14 +6,12 @@
 <script>
 export default {
   name: 'score',
-  data: function () {
-    return {
-      score: 0
-    }
-  }
+  props: ['score']
 }
 </script>
 
 <style scoped>
-
+  .score {
+    text-align: center;
+  }
 </style>

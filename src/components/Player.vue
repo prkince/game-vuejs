@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class= 'playerCenter'>
        <span v-html="welcomeMessage" :class="{ hide: !player }"></span> <!-- if there is no player it will be hidden -->
        <form @submit.prevent="setPlayer" :class="{ hide: player }"> <!-- if there is a player it will be hidden -->
            <input name="player" class='btn-prk form-contro' placeholder="Type your name here">
-           <button type="submit" class="btn btn-secondary">Play</button>
+           <button type="submit" class="btn-secondary">PLAY</button>
        </form>
     </div>
 </template>
@@ -38,5 +38,8 @@ export default {
     }
     .hide {
       display: none
+    }
+    .playerCenter {
+      text-align: center
     }
 </style>
