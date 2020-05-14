@@ -1,11 +1,9 @@
 <template>
     <div class="score">
-        Your score: {{ score }}
+         {{ score ? `Your score is ${score}.` : 'Press Enter to begin.' }} <!--  We can write JS directly into double quotes-->
     </div>
 </template>
-
 <script>
-
 export default {
   name: 'score',
   data: function () {

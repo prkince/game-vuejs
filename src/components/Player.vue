@@ -1,9 +1,9 @@
 <template>
     <div>
-       <span v-html="welcomeMessage"></span>
-       <form v-hide v-on:submit.prevent="setPlayer">
-           <input name="player" class='btn-prk' placeholder="Type your name here" v-border:salmon>
-           <button type="submit" v-border:grey>Play</button>
+       <span v-html="welcomeMessage" :class="{ hide: !player }"></span> <!-- if there is no player it will be hidden -->
+       <form @submit.prevent="setPlayer" :class="{ hide: player }"> <!-- if there is a player it will be hidden -->
+           <input name="player" class='btn-prk form-contro' placeholder="Type your name here">
+           <button type="submit" class="btn btn-secondary">Play</button>
        </form>
     </div>
 </template>
@@ -20,20 +20,6 @@ export default {
   updated: function () {
     this.welcomeMessage = `Hello <span class="player">${this.player} </span> !`
   },
-  directives: {
-    border: function (el, binding) {
-      el.style.borderColor = binding.arg
-    },
-    hide: function (el, binding, vnode) {
-      let isForm = vnode.tag === 'form'
-      let player = vnode.context.player
-      if (isForm) {
-        el.style.display = player ? 'none' : 'block'
-      } else {
-        el.style.display = player ? 'block' : 'none'
-      }
-    }
-  },
   methods: {
     setPlayer: function (ev) {
       let playerName = ev.target[0].value // Select the player Name
@@ -49,5 +35,8 @@ export default {
 <style scoped>
     .btn-prk{
         width: 20%;
+    }
+    .hide {
+      display: none
     }
 </style>
