@@ -1,12 +1,12 @@
 <template>
-    <div class="score">
+    <div class="score" v-if='player'>
          {{ score ? `Your score is ${score}.` : 'Press Enter to begin.' }} <!--  We can write JS directly into double quotes-->
     </div>
 </template>
 <script>
 export default {
   name: 'score',
-  props: ['score']
+  props: ['score', 'player']
 }
 </script>
 
