@@ -14,7 +14,8 @@
                 <div class="popup-prk-main">
                   <p> Type your name and start the game</p>
                   <p> Click on the ball or the cube to gain 1 point</p>
-                  <p> Click on one of them with ALT once color is blue to double the point!</p>
+                  <p> Click on one of them with ALT once color is blue to double the points.</p>
+                  <p> If you click anywhere else you will lose points.</p>
                 </div>
             </div>
           </div>
