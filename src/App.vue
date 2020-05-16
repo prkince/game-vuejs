@@ -42,4 +42,7 @@ export default {
     height: 100vh;
     display: block
   }
+  h2, p, span {
+    cursor: default
+  }
 </style>

@@ -56,7 +56,7 @@ export default {
     },
     player: function () { // launch the app and timer as soon as player is online
       this.stopped = false
-      this.time = 2
+      this.time = 100
       let self = this // using self to be able to have this inside setInterval function
       setInterval(function () {
         self.updateTime()
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     startAgain: function () {
-      this.time = 10
+      this.time = 100
       this.$parent.score = 0
       this.stopped = false
       document.getElementById('popup-prk-scoreBox').style.display = 'none'
@@ -182,13 +182,15 @@ export default {
     background: aliceblue;
     border-radius: 9999px;
     position: absolute;
-    transition: width 2s, height 2s, margin 0.5s
+    transition: width 2s, height 2s, margin 0.5s;
+    cursor: pointer
   }
 
   .cube {
     background: salmon;
     position: absolute;
-    transition: width 2s, height 2s, margin 0.5s
+    transition: width 2s, height 2s, margin 0.5s;
+    cursor: pointer
   }
 
   .bonus {
@@ -201,7 +203,8 @@ export default {
 
   .log {
     width: 100%;
-    height: 55px;
+    height: 58px;
+    padding: 5px;
     background: #dedede;
     display: block;
     overflow: hidden;
@@ -220,6 +223,7 @@ export default {
     font-size: 90pt;
     padding-left: 30px;
     color: darkgoldenrod;
+    cursor: default
   }
 
    /* popup-prk-score box style */
@@ -268,6 +272,7 @@ export default {
       background: white;
       opacity: 0.8;
       text-align: center;
+      cursor: pointer;
   }
 
   /* add animation effects */
@@ -291,6 +296,5 @@ export default {
   .close-score:hover, .close-score:focus {
       color: #000;
       text-decoration: none;
-      cursor: pointer;
   }
 </style>
