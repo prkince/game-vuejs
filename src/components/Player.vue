@@ -21,7 +21,7 @@
         </div>
         <form @submit.prevent="setPlayer" :class="{ hide: player }"> <!-- if there is a player it will be hidden -->
             <div class="formInput">
-                <input name="player" class='' placeholder="Type your name here">
+                <input name="player" placeholder="Type your name here">
                 <button type="submit" class="btn-secondary">PLAY</button>
             </div>
         </form>

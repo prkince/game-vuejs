@@ -1,12 +1,22 @@
 <template>
   <div class='content'>
     <div class='log'>
-      <p v-for='item in collection' :key="item.id"> Turn: {{ item.id }} - {{ item.message }} </p>
+      <button type="submit" class="btn-secondary" v-on:click="startAgain" v-if='player'>RESTART</button>
+      <p v-for='item in collection' :key="item.id"> {{ item.message }} </p>
     </div>
     <div class="game" @click="clickOnInterface" :class='{ wait: !player || stopped }'>
       <span class='time' v-if='!stopped'> {{ time }}</span>
       <span v-if='player && !stopped' class="round" :style='roundStyle' :class='{ bonus: bonusActivated, badColor: badColorActivated }' @click.exact.stop="clickOnRound" @click.alt.stop='bonus'></span> <!--Stop the event to occur-->
       <span v-if='player && !stopped' class="cube" :style='cubeStyle' :class='{ bonus: bonusActivated, badColor: badColorActivated }' @click.exact.stop="clickOnRound" @click.alt.stop='bonus'></span> <!--Stop the event to occur-->
+    </div>
+    <div id="popup-prk-scoreBox" class="popup-prk-score">
+      <div class="popup-prk-score-content">
+        <div class="popup-prk-score-head">
+            <span class="close-score">x</span>
+            <h2> {{ this.finalScore() }}</h2>
+            <button type="submit" class="btn-secondary" v-on:click="startAgain">PLAY AGAIN</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,16 +56,36 @@ export default {
     },
     player: function () { // launch the app and timer as soon as player is online
       this.stopped = false
-      this.time = 10
+      this.time = 2
       let self = this // using self to be able to have this inside setInterval function
       setInterval(function () {
         self.updateTime()
       }, 1000)
+    },
+    time: function () {
+      if (this.time === 0) {
+        this.scoreModalRules()
+      }
     }
   },
   methods: {
+    startAgain: function () {
+      this.time = 10
+      this.$parent.score = 0
+      this.stopped = false
+      document.getElementById('popup-prk-scoreBox').style.display = 'none'
+    },
+    finalScore: function () { // Adding one final Score Popup
+      if (this.click === 0) {
+        return `You did not play! You may try again :)`
+      } else if (this.$parent.score <= 0) {
+        return `Your score is negative, ${this.$parent.score}, you may try again!`
+      } else {
+        return `Your score is ${this.$parent.score}, congrats!`
+      }
+    },
     updateTime: function () {
-      if (this.time === 0) { // if time = 0, game stop
+      if (this.time <= 0) { // if time = 0, game stop
         this.stopped = true
       }
       if (!this.stopped) { // if time is not stopped, reducing time
@@ -124,6 +154,14 @@ export default {
       } else {
         this.click--
       }
+    },
+    scoreModalRules: function () {
+      const popupPrk = document.getElementById('popup-prk-scoreBox') // get the popup
+      const close = document.getElementsByClassName('close-score')[0] // get the close action element
+      popupPrk.style.display = 'block' // open the popup once the link is clicked
+      close.onclick = function () { // close the popup once close element is clicked
+        popupPrk.style.display = 'none'
+      }
     }
 
   }
@@ -163,7 +201,7 @@ export default {
 
   .log {
     width: 100%;
-    height: 30px;
+    height: 55px;
     background: #dedede;
     display: block;
     overflow: hidden;
@@ -182,5 +220,77 @@ export default {
     font-size: 90pt;
     padding-left: 30px;
     color: darkgoldenrod;
+  }
+
+   /* popup-prk-score box style */
+  .popup-prk-score {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 15%;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      @media (max-width: 500px) {
+          padding-top: 25%;
+      }
+  }
+
+  #popup-prk-scoreLink {
+      color: #808080;
+      margin: 0 0 0 0;
+      text-decoration: none;
+      font-size: 15px;
+  }
+
+  .popup-prk-score-content {
+      position: relative;
+      background-color: #fefefe;
+      margin: auto;
+      padding: 10px 10px 10px 10px;
+      width: 60%;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      -webkit-animation-name: animatetop;
+      -webkit-animation-duration: 0.4s;
+      animation-name: animatetop;
+      animation-duration: 0.4s;
+      opacity: 0.9;
+      @media (max-width: 500px) {
+          width: 90%;
+      }
+  }
+  .popup-prk-score-head {
+      padding: 2px 16px;
+      background: white;
+      opacity: 0.8;
+      text-align: center;
+  }
+
+  /* add animation effects */
+  @-webkit-keyframes animatetop {
+      from {top:-300px; opacity:0}
+      to {top:0; opacity:1}
+  }
+
+  @keyframes animatetop {
+      from {top:-300px; opacity:0}
+      to {top:0; opacity:1}
+  }
+
+  /* close button style */
+  .close-score {
+      color: lightgrey;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  .close-score:hover, .close-score:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
   }
 </style>
