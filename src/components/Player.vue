@@ -3,8 +3,10 @@
        <span v-html="welcomeMessage" :class="{ hide: !player }"></span> <!-- if there is no player it will be hidden -->
        <div class="playerDetails">
         <div>
-          <span :class="{ hide: player }">Welcome to my Game </span>
-          <a id="popup-prkLink" href="#" v-on:click="modalRules">Rules</a>
+          <div class="welcome-and-rules">
+            <span :class="{ hide: player }" class="welcome"><strong>Welcome to my Game</strong></span>
+            <a id="popup-prkLink" href="#" v-on:click="modalRules" class="btn-secondary btn-rules">RULES</a>
+          </div>
           <div id="popup-prkBox" class="popup-prk">
             <div class="popup-prk-content">
                 <div class="popup-prk-head">
@@ -23,7 +25,7 @@
         <form @submit.prevent="setPlayer" :class="{ hide: player }"> <!-- if there is a player it will be hidden -->
             <div class="formInput">
                 <input name="player" placeholder="Type your name here">
-                <button type="submit" class="btn-secondary">PLAY</button>
+                <button type="submit" class="btn-secondary btn-rules">PLAY</button>
             </div>
         </form>
        </div>
@@ -85,6 +87,35 @@ export default {
      justify-content: space-around;
      padding: 10px;
     }
+    .btn-rules {
+      padding: 1px 7px 2px;
+    }
+    .welcome-and-rules {
+      display: flex;
+    }
+    .welcome {
+      margin-right: 90px
+    }
+    @media (max-width: 945px) {
+      .playerDetails {
+        display: block
+      }
+      .welcome {
+        margin-right: 0
+      }
+      form {
+        justify-content: center;
+        display: flex
+      }
+      .welcome-and-rules {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+      }
+    }
+
     .formInput {
       width: 500px;
     }
@@ -111,10 +142,7 @@ export default {
     }
 
     #popup-prkLink {
-        color: #808080;
-        margin: 0 0 0 0;
         text-decoration: none;
-        font-size: 15px;
     }
 
     .popup-prk-content {
