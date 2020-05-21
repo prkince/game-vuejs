@@ -6,6 +6,7 @@
     </div>
     <div class="game" @click="clickOnInterface" :class='{ wait: !player || stopped }'>
       <span class='time' v-if='!stopped'> {{ time }}</span>
+      <span class='score' v-if='!stopped'> {{ this.$parent.score }}</span>
       <span v-if='player && !stopped' class="round" :style='roundStyle' :class='{ bonus: bonusActivated, badColor: badColorActivated }' @click.exact.stop="clickOnRound" @click.alt.stop='bonus'></span> <!--Stop the event to occur-->
       <span v-if='player && !stopped' class="cube" :style='cubeStyle' :class='{ bonus: bonusActivated, badColor: badColorActivated }' @click.exact.stop="clickOnRound" @click.alt.stop='bonus'></span> <!--Stop the event to occur-->
     </div>
@@ -42,7 +43,8 @@ export default {
       bonusActivated: false,
       badColorActivated: false,
       collection: [],
-      stopped: true // stop the timer
+      stopped: true, // stop the timer
+      scores: []
     }
   },
   created: function () { // Track keyboard keydown directly from the beginning
@@ -56,7 +58,7 @@ export default {
     },
     player: function () { // launch the app and timer as soon as player is online
       this.stopped = false
-      this.time = 100
+      this.time = 5
       let self = this // using self to be able to have this inside setInterval function
       setInterval(function () {
         self.updateTime()
@@ -70,9 +72,10 @@ export default {
   },
   methods: {
     startAgain: function () {
-      this.time = 100
-      this.$parent.score = 0
+      this.scores.push(this.$parent.score)
+      this.time = 5
       this.stopped = false
+      this.$parent.score = 0
       document.getElementById('popup-prk-scoreBox').style.display = 'none'
     },
     finalScore: function () { // Adding one final Score Popup
@@ -226,6 +229,14 @@ export default {
     cursor: default
   }
 
+  .score {
+    opacity: 0.2;
+    position: absolute;
+    font-size: 90pt;
+    right: 30px;
+    color: darkgoldenrod;
+    cursor: default
+  }
    /* popup-prk-score box style */
   .popup-prk-score {
       display: none;

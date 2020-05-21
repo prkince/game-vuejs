@@ -1,14 +1,12 @@
 <template>
   <div id="app">
     <player :player='player' v-on:player='updatePlayer'></player>
-    <score :score='score'></score>
     <game :player='player' v-on:score="updateScore"></game>
   </div>
 </template>
 
 <script>
 import Game from './components/Game'
-import Score from './components/Score'
 import Player from './components/Player'
 
 export default {
@@ -20,7 +18,6 @@ export default {
   },
   components: {
     Game,
-    Score,
     Player
   },
   methods: {
