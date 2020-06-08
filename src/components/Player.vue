@@ -1,5 +1,8 @@
 <template>
     <div class= 'playerCenter'>
+       <div>
+         <li v-for="salutation in salutations" v-bind:key="salutation.id"> {{ salutation.text }}</li>
+       </div>
        <span v-html="welcomeMessage" :class="{ hide: !player }"></span> <!-- if there is no player it will be hidden -->
        <div class="playerDetails">
         <div>
@@ -38,6 +41,12 @@ export default {
   name: 'player',
   data: function () {
     return {
+      salutations: [
+        {id: 1, text: 'ola'},
+        {id: 2, text: 'bonjour'},
+        {id: 3, text: 'coucou'},
+        {id: 4, text: 'hello'}
+      ],
       player: '',
       welcomeMessage: ''
     }
