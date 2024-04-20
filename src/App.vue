@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <player :player='player' v-on:player='updatePlayer'></player>
-    <game :player='player' v-on:score="updateScore"></game>
+    <player :player='player' @player='updatePlayer'></player>
+    <game :player='player' @score="updateScore"></game>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import Player from './components/Player'
 
 export default {
   name: 'App',
-  data: function () {
+  data() {
     return {
       score: 0, player: false
     }
@@ -21,11 +21,11 @@ export default {
     Player
   },
   methods: {
-    updateScore: function (score) {
-      this.score = score
+    updateScore(score) {
+      this.score = score;
     },
-    updatePlayer: function () {
-      this.player = true
+    updatePlayer() {
+      this.player = true;
     }
   }
 }
