@@ -1,19 +1,20 @@
 <template>
   <div class='content'>
     <div class='log'>
-      <button type="submit" class="btn-secondary" @click="startAgain" v-if='player'>RESTART</button>
+      <button type="submit" class="btn-secondary" @click="startAgain" v-if='player'>RESTART THE GAME</button>
       <p v-for='item in collection' :key="item.id"> {{ item.message }} </p>
     </div>
-    <div class="game" @click="clickOnInterface" :class='{ wait: !player || stopped }'>
+    <img v-if="!player || stopped" class="backgroundImg"  src="https://source.unsplash.com/random/?wallpapers&1">
+    <div v-else class="game" @click="clickOnInterface">
       <span class='time' v-if='time === 0 || !stopped' id="timerDisplay">{{ time }}</span>
       <span class='score' v-if='!stopped'> {{ click }}</span>
       <span v-if='player && !stopped' class="round" :style='roundStyle'
             :class='{ bonus: bonusActivated, badColor: badColorActivated }'
-            @click.exact.stop="clickOnForm"
+            @click.exact.stop="clickOnForm($event, true)"
             @click.alt.stop='bonus'></span>
       <span v-if='player && !stopped' class="cube" :style='cubeStyle'
             :class='{ bonus: bonusActivated, badColor: badColorActivated }'
-            @click.exact.stop="clickOnForm"
+            @click.exact.stop="clickOnForm($event, false)"
             @click.alt.stop='bonus'></span>
     </div>
     <div id="scoreBox" class="popup-prk-score">
@@ -104,9 +105,14 @@ export default {
         return `Your score is ${this.$parent.score}, congrats!`;
       }
     },
-    clickOnForm(ev) {
-      setTimeout(this.updateRound, 1000);
-      setTimeout(this.updateCube, 1000);
+    clickOnForm(ev, form) {
+      if (form) {
+        this.updateRound();
+        setTimeout(this.updateCube, 1000);
+      } else {
+        this.updateCube();
+        setTimeout(this.updateRound, 1000);
+      }
       this.updateClick(true);
       ev.target.className === 'cube' || ev.target.className === 'cube bonus' ? console.log('CUBE!') : console.log('ROUND!');
       this.addLog(`Bravo!`);
@@ -220,10 +226,6 @@ export default {
   height: 100%;
 }
 
-.wait {
-  opacity: 0.3;
-}
-
 .time {
   opacity: 0.8;
   position: absolute;
@@ -319,5 +321,11 @@ export default {
 .close-score:hover, .close-score:focus {
   color: #000;
   text-decoration: none;
+}
+
+.backgroundImg {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
 }
 </style>
